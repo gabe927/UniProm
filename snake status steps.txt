@@ -3,8 +3,8 @@ Snake staus steps
 -Get device status
 -filter type with USW
 -filter model with USL24P
-Map MAC addresses to switch names
-Filter to LLDP table
+-Map MAC addresses to switch names
+-Filter to LLDP table
 Start with Beach Primary
 	Check Port 24
 	If not in list, then down

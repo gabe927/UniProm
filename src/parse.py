@@ -23,6 +23,18 @@ for i in data:
 MACs = {}
 
 for i in devices:
-    MACs.update({i["name"]:i["mac"]})
+    MACs.update({i["mac"]:i["name"]})
 
-print(MACs)
+# Build LLDP table with device names
+LLDP_table = {}
+
+for i in devices:
+    LLDP_table.update({i["name"]:[]})
+    for j in i["lldp_table"]:
+        temp_dict:dict = j
+        device_mac = temp_dict["chassis_id"]
+        if device_mac in MACs:
+            temp_dict.update({"recognized_device":MACs[device_mac]})
+        LLDP_table[i["name"]].append(temp_dict)
+
+print(json.dumps(LLDP_table, indent=4))
