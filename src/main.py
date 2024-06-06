@@ -25,13 +25,11 @@ login_data = {
     "username": username,
     "password": password
 }
-asdf = '{"username": "api2", "password": "HarfordSound69"}'
-print(asdf)
 
 # Disable SSL certificate verification
 session.verify = False
 
-response = session.post(login_url, data=asdf)
+response = session.post(login_url, json=login_data)
 
 # Check if login was successful
 if response.status_code != 200:
