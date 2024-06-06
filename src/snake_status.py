@@ -9,6 +9,14 @@ class snake_status:
         foh_pri = "FOH-SW-PRI"
         foh_sec = "FOH-SW-SEC"
 
+    status_meaning = {
+        -1: "error",
+        0: "down",
+        1: "ok",
+        2: "flipped",
+        3: "unknown"
+    }
+
     def _isValidDevice(self, dut):
         return dut["type"] == "usw" and (dut["model"] == "USL24P" or dut["model"] == "USL24PB")
 
@@ -43,14 +51,6 @@ class snake_status:
         # print(json.dumps(lldp_table, indent=4))
 
         # Build snake status
-        # {
-        #     -1: "error",
-        #     0: "down",
-        #     1: "ok"
-        #     2: "flipped"
-        #     3: "unknown"
-        # }
-
         # assume down stautus and change to other statuses based on logic below
         snake_status = {
             "ethernet":{
