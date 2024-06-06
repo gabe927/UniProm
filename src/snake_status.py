@@ -42,16 +42,18 @@ class snake_status:
 
         for i in devices:
             lldp_table.update({i["name"]:[]})
-            for j in i["lldp_table"]:
-                temp_dict:dict = j
-                device_mac = temp_dict["chassis_id"]
-                if device_mac in MACs:
-                    temp_dict.update({"recognized_device":MACs[device_mac]})
-                lldp_table[i["name"]].append(temp_dict)
+            if "lldp_table" in i: #TODO if this fails, it should probably throw status error
+                for j in i["lldp_table"]:
+                    temp_dict:dict = j
+                    device_mac = temp_dict["chassis_id"]
+                    if device_mac in MACs:
+                        temp_dict.update({"recognized_device":MACs[device_mac]})
+                    lldp_table[i["name"]].append(temp_dict)
         # print(json.dumps(lldp_table, indent=4))
 
         # Build snake status
         # assume down stautus and change to other statuses based on logic below
+        # TODO change the logic to assume error then change to down when known down
         snake_status = {
             "ethernet":{
                 "primary":0,
