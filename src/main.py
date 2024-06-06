@@ -1,5 +1,6 @@
 import requests
 import logging
+import snake_status
 
 # Enable debugging output for requests
 logging.basicConfig(level=logging.DEBUG)
@@ -48,5 +49,11 @@ if device_status_response.status_code != 200:
     exit()
 
 # Print device status
-print("Device Status:")
-print(device_status_response.json())
+# print("Device Status:")
+# print(type(device_status_response.json()))
+
+# get snake status
+snake_status_class = snake_status.snake_status()
+device_status = device_status_response.json()["data"]
+snake_status_result = snake_status_class.run(device_status)
+print(snake_status_result)
