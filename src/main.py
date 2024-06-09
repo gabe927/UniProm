@@ -63,8 +63,21 @@ def getSnakeStatus():
 
 @app.route('/metrics', methods=['GET'])
 def metrics():
+    # insert start of html page
+    return_text = "<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">\n"
+
+    #snake status
+    return_text += "# HELP uniprom_snake_status Status of the trunked snake connection between switches\n"
+    return_text += "# TYPE uniprom_snake_status gauge\n"
     ss_success, ss_result = getSnakeStatus()
-    return json.dumps(ss_result)
+    if ss_success:
+        for media_type, media_type_v in ss_result.items():
+            for port_rank, port_rank_v in media_type_v.items():
+                return_text += f"uniprom_snake_status{{media_type={media_type}, port_rank={port_rank}}} {port_rank_v}\n"
+
+    # insert end of html page and return
+    return_text += "</pre>"
+    return return_text
 
 if __name__ == "__main__":
     # login to Unifi API
