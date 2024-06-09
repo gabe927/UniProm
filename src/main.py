@@ -8,7 +8,7 @@ import snake_status
 logging.basicConfig(level=logging.DEBUG)
 
 # Define the Unifi controller IP address
-unifi_controller_ip = "192.168.100.1"
+unifi_controller_ip = "unifi"
 
 # Define your credentials
 username = "api2"
