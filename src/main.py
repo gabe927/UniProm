@@ -51,8 +51,16 @@ def getSnakeStatus():
     device_status_response = session.get(device_status_url)
 
     # Check if getting device status was successful
+    # Unauthorized
+    if device_status_response.status_code == 401:
+        print("Logged out of Unifi API. Attempting to login...")
+        if not login():
+            exit()
+        else:
+            return getSnakeStatus()
     if device_status_response.status_code != 200:
-        # print("Failed to get device status!")
+        print("Failed to get device status!")
+        print(f"ERROR: Unifi API returned {device_status_response.status_code} status code")
         return False, {"Error":f"Unifi API returned {device_status_response.status_code} status code"}
 
     # get snake status
