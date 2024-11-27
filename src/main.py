@@ -3,16 +3,29 @@ import logging
 from flask import Flask, Response
 import json
 import snake_status
+import os
+from dotenv import load_dotenv
+
+# load .env file if available
+load_dotenv()
 
 # Enable debugging output for requests
 logging.basicConfig(level=logging.DEBUG)
 
-# Define the Unifi controller IP address
-unifi_controller_ip = "unifi"
+# Get Unifi environment variables
+def getEnvVariable(var, isOptional=False, defaultValue=None):
+    value = os.getenv(var)
+    if value == None:
+        if isOptional:
+            value = defaultValue
+        else:
+            print(f"ERROR: Non-optional environment variable '{var}' not provided!")
+            exit()
+    return value
 
-# Define your credentials
-username = "api2"
-password = "HarfordSound69"
+unifi_controller_ip = getEnvVariable("UNIFI_IP")
+username = getEnvVariable("UNIFI_USERNAME")
+password = getEnvVariable("UNIFI_PASSWORD")
 
 # Define the URL for logging in
 login_url = f"https://{unifi_controller_ip}/api/auth/login"
@@ -89,5 +102,9 @@ if __name__ == "__main__":
     if not login():
         exit()
 
+    # Get/Check ENV variables. Set defaults if not provided
+    web_ip = getEnvVariable("WEB_IP", isOptional=True, defaultValue="0.0.0.0")
+    web_port = getEnvVariable("WEB_PORT", isOptional=True, defaultValue=9430)
+
     # Start Flask application
-    app.run(host='0.0.0.0', port=9430)
+    app.run(host=web_ip, port=web_port)
