@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Enable debugging output for requests
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 # Get Unifi environment variables
 def getEnvVariable(var, isOptional=False, defaultValue=None):
