@@ -50,6 +50,17 @@ jobs:
             # version tag
             type=semver,pattern={{version}}
             type=semver,pattern=v{{version}}
+      # Setup docker
+      - name: Set up Docker
+        uses: docker/setup-docker-action@v4
+        with:
+          daemon-config: |
+            {
+              "debug": true,
+              "features": {
+                "containerd-snapshotter": true
+              }
+            }
       # This step uses the `docker/build-push-action` action to build the image. For more information, see "[Usage](https://github.com/docker/build-push-action#usage)" in the README of the `docker/build-push-action` repository.
       - name: Build and push Docker image
         id: push
